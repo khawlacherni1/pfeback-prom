@@ -1,0 +1,5 @@
+ci_access:
+    projects:
+        - id: khawla.cherni/backpfe
+    groups:
+        - id: khawla.cherni

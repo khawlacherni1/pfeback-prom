@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-myschool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot
+  template:
+    metadata:
+      labels:
+        app: spring-boot
+    spec:
+      containers:
+        - name: spring-boot-container
+<<<<<<< HEAD
+          image: khawlacherni/backend_myschool:latest   # Replace with your actual image name and version
+=======
+          image: khawlacherni/backhome:latest   # Replace with your actual image name and version
+>>>>>>> ffaddcb06bb2de1d3a5f2c4884f60a8d20e26274
+          ports:
+            - containerPort: 8080   # Expose the port your Spring Boot app is running on
+          env:
+            - name: JAVA_OPTS
+              value: "-Xmx150m" # Replace with your actual database password
+            - name: DB_URL
+<<<<<<< HEAD
+              value: "jdbc:mysql://192.168.1.103:30473/myschool?allowPublicKeyRetrieval=true&useSSL=false
+"
+=======
+              value: "jdbc:mysql://192.168.1.103:30473/myschool?allowPublicKeyRetrieval=true&useSSL=false"
+>>>>>>> ffaddcb06bb2de1d3a5f2c4884f60a8d20e26274
+
+          imagePullPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-service
+spec:
+  selector:
+    app: spring-boot
+  ports:
+    - protocol: TCP
+      port: 8081   # Port on which the service will listen
+      targetPort: 8080 # Port on which the Spring Boot app is running
+<<<<<<< HEAD
+  type: ClusterIP   # Change the service type to ClusterIP
+
+
+
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: spring-boot-service
+#spec:
+#  selector:
+#    app: spring-boot
+#  ports:
+#    - protocol: TCP
+#      port: 8081   # Port on which the service will listen
+#      targetPort: 8080 # Port on which the Spring Boot app is running
+#      nodePort: 32078
+#  type: NodePort
+=======
+      nodePort: 32078
+  type: NodePort
+>>>>>>> ffaddcb06bb2de1d3a5f2c4884f60a8d20e26274

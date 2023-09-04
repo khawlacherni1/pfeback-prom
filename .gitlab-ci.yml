@@ -1,0 +1,54 @@
+#services:
+#- name: docker:dind
+#  alias: thedockerhost
+
+#image: docker:latest
+
+#stages:
+ # - buildvlast
+ # image: maven:3.8.4
+
+#services:
+#- name: docker:dind
+#  alias: thedockerhost
+  
+#build:
+#  stage: buildvlast
+ # script:
+  #  - mvn clean package -DskipTests
+  #artifacts:
+   # paths:
+    #  - target/myschool.jar
+
+# .gitlab-ci.yml
+image: ruby:2.7
+  
+stages:
+  - build
+  - deploy
+
+variables:
+  KUBE_CONTEXT: khawla.cherni/backpfe:pfe
+
+build:
+  stage: build
+  image: maven:3.8.4   # Use an image with Maven installed
+
+  script:
+    - mvn clean package -DskipTests
+
+.kube-context:
+  before_script:
+  - if [ -n "$KUBE_CONTEXT" ]; then kubectl config use-context "$KUBE_CONTEXT"; fi
+
+deploy_application:
+  stage: deploy
+  extends: [.kube-context]
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH # CI will run when any new commit is made to default branch (main)
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
+  script:
+     
+    - kubectl apply -f deployment-backend.yaml

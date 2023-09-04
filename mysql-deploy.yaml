@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-pod-myschool
+  labels:
+    app: mysql
+spec:
+  containers:
+  - name: mysql
+    image: mysql:8.0
+    env:
+    - name: MYSQL_DATABASE
+      value: myschool
+    - name: MYSQL_ROOT_PASSWORD
+      value: root
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+  - protocol: TCP
+    port: 3306  # Corrected port number for MySQL service
+    nodePort: 30473
+  type: NodePort
